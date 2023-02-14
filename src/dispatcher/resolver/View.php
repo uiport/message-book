@@ -7,7 +7,7 @@ class View
     private ?array $parameters;
     private string $fileName;
 
-    public function __construct(string $fileName, ?array $parameters){
+    public function __construct(string $fileName, ?array $parameters = null){
         $this->fileName = $fileName;
         $this->parameters = $parameters;
     }
