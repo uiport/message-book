@@ -16,6 +16,6 @@ class ControllerResolver
     public function handle(Request $request) : Response | View{
         $path = $request->getPath();
         list($controllerClass, $controllerMethod) = $this->urls[$path];
-        return (new $controllerClass())->$controllerMethod();
+        return (new $controllerClass())->$controllerMethod($request);
     }
 }

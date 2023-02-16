@@ -7,7 +7,7 @@ use App\dispatcher\Request;
 use App\dispatcher\resolver\ControllerResolver;
 use App\dispatcher\resolver\ViewResolver;
 
-require_once "../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 session_name("MESSAGE-BOOK_TOKEN");
 session_start();
