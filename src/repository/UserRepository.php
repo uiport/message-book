@@ -3,6 +3,7 @@
 namespace App\repository;
 
 use App\model\User;
+use Ramsey\Uuid\Uuid;
 
 class UserRepository
 {
@@ -19,12 +20,7 @@ class UserRepository
             "SELECT * FROM users WHERE user_id = ?",
             [$id],
             function (array $row) use (&$user){
-                $user = new User(
-                    $row["user_id"],
-                    $row["name"],
-                    $row["password_hash"],
-                    $row["session_token"]
-                );
+                $user = $this->configureUser($row);
             }
         );
         return $user;
@@ -32,7 +28,7 @@ class UserRepository
     public function createUser(User $user) : void{
         $this->handlePdoWrapper(
             "INSERT INTO users (name,password_hash,session_token) VALUES (?,?,?)",
-            [$user->getName(),$user->getPasswordHash(),$user->getSessionToken()]
+            [$user->getName(),$user->getPasswordHash(),$user->getSessionToken()],
         );
     }
     public function removeUser(int $id) : void{
@@ -47,10 +43,27 @@ class UserRepository
             [$user->getName(), $user->getPasswordHash(), $user->getSessionToken(), $user->getId()]
         );
     }
+    public function getUserByName(string $name) : ?User{
+        $this->handlePdoWrapper(
+            "SELECT * FROM users WHERE name = ?",
+            [$name],
+            function ($row) use (&$user){
+                $user = $this->configureUser($row);
+            });
+        return $user;
+    }
+    protected function configureUser(array $info) : User{
+        return new User(
+            $info["user_id"],
+            $info["name"],
+            $info["password_hash"],
+            $info["session_token"]
+        );
+    }
     protected function createPDO() : \PDO{
         return new \PDO($this->dns,$this->username,$this->password);
     }
-    protected function handlePdoWrapper(string $query, array $params, ?callable $callable = null) : void{
+    protected function handlePdoWrapper(string $query, ?array $params = null, ?callable $callable = null) : void{
         try {
             $pdo = $this->createPDO();
             $preparedStatement = $pdo->prepare($query);

@@ -19,14 +19,16 @@ class Response
         return "";
     }
 
-    public function setHeaders(array $headers) : void{
+    public function setHeaders(array $headers) : static{
         $this->headers = $headers;
+        return $this;
     }
     public function getHeaders() : ?array{
         return $this->headers;
     }
-    public function setBody(string $body) : void{
+    public function setBody(string $body) : static{
         $this->body = $body;
+        return $this;
     }
 
     public function getBody() : ?string{
