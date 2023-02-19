@@ -26,6 +26,10 @@ class Dispatcher
     }
 
     protected function send(Response $response):void{
+        $responseCode = $response->getResponseCode();
+        if(isset($responseCode)){
+            http_response_code($responseCode);
+        }
         $headers = $response->getHeaders();
         if($headers !== null)
             array_walk($headers,function (string $header){

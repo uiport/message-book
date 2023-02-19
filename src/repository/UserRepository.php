@@ -52,6 +52,15 @@ class UserRepository
             });
         return $user;
     }
+    public function getUserByToken(string $token) : ?User{
+        $this->handlePdoWrapper(
+            "SELECT * FROM users WHERE session_token = ?",
+            [$token],
+            function ($row) use (&$user){
+                $user = $this->configureUser($row);
+            });
+        return $user;
+    }
     protected function configureUser(array $info) : User{
         return new User(
             $info["user_id"],

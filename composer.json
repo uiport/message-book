@@ -16,6 +16,8 @@
     "minimum-stability": "stable",
     "require": {
       "ext-pdo": "*",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+      "ext-fileinfo": "*",
+        "league/mime-type-detection": "^1.11"
     }
 }

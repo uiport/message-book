@@ -23,4 +23,12 @@ class AuthService
         return $user;
     }
 
+    public function persistUser(User $user) : User{
+        $this->userRepository->createUser($user);
+        return $this->userRepository->getUserByName($user->getName());
+    }
+
+    public function attemptByToken(string $token) : ?User{
+        return $this->userRepository->getUserByToken($token);
+    }
 }

@@ -8,10 +8,23 @@ class Response
 {
     private ?array $headers;
     private ?string $body;
+    private ?int $responseCode;
+
+    public function getResponseCode(): ?int
+    {
+        return $this->responseCode;
+    }
+
+    public function setResponseCode(?int $responseCode): static
+    {
+        $this->responseCode = $responseCode;
+        return $this;
+    }
 
     public function __construct(){
         $this->headers = null;
         $this->body = null;
+        $this->responseCode = null;
     }
 
     public function __toString(): string
