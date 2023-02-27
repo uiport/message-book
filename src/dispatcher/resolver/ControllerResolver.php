@@ -17,6 +17,7 @@ class ControllerResolver
     public function handle(Request $request) : Response | View
     {
         $path = $request->getPath();
+        var_dump($path);
         if (!array_key_exists($path, $this->urls)) {
             $response = new Response();
             $filePath = __DIR__ . "/../../../public" . $path;

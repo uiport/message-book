@@ -15,8 +15,8 @@ class PageController
 
     public function __construct(AuthService $authService = new AuthService(new UserRepository([
         "mysql:host=localhost;dbname=messagebook",
-        "local-token",
-        "local-token"]))){
+        "root",
+        "root"]))){
         $this->authService = $authService;
     }
     public function index(Request $request) : View{

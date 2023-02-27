@@ -16,8 +16,8 @@ class AuthController
 
     public function __construct(AuthService $authService = new AuthService(new UserRepository([
         "mysql:host=localhost;dbname=messagebook",
-        "local-token",
-        "local-token"]))){
+        "root",
+        "root"]))){
         $this->authService = $authService;
     }
 
@@ -40,7 +40,10 @@ class AuthController
         return (new Response())->setBody('Success logout');
     }
 
-    public function register(Request $request) : Response{
+    public function register(Request $request) : Response | View{
+        if(!$request->hasParameter("name") || !$request->hasParameter("password")){
+            return new View("register.html");
+        }
         $user = new User(
             0,
             $request->getParameter("name"),
